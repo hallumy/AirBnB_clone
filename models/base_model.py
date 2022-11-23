@@ -4,6 +4,9 @@ from datetime import datetime
 from uuid import uuid4
 import models
 
+
+timeformat = '%Y-%m-%dT%H:%M:%S.%f'
+
 class BaseModel:
     """BaseModel class
     
@@ -13,13 +16,22 @@ class BaseModel:
 
     """
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         """Initialization of the Base Model Instances"""
+        if args is not None and len(args) > 0:
+            pass
+        if kwargs:
+            for key, value in  kwargs.items():
+                if key in ['created_at', 'updated_at']:
+                    value = datetime.strptime(value, timeformat)
+                if key not in ['__class__']:
+                    setattr(self, key, value)
 
-        timeformat = '%Y-%m-%dT%H:%M:%S.%f'
-        self.id = str(uuid.uuid4())
-        self.created_at = datetime.now()
-        self.updated_at = self.created_at
+
+        else:
+            self.id = str(uuid.uuid4())
+            self.created_at = datetime.now()
+            self.updated_at = self.created_at
 
     def __str__(self):
         """Representation of the class for the user"""
