@@ -103,7 +103,7 @@ class HBNBCommand(cmd.Cmd):
             """Updates an instance on the class name
             and id by adding or updating attribute
             """
-            line = arg
+            
 
         
 
