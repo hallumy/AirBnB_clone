@@ -10,7 +10,6 @@ import uuid
 from models import storage
 import time
 import re
-from models.engine.file_storage import FileStorage
 
 
 class Test_BaseModel(unittest.TestCase):
@@ -28,11 +27,10 @@ class Test_BaseModel(unittest.TestCase):
         is run
         """
 
-        cls.base.destroy()
+        del cls.base
 
     def tearDown(self):
         """Tears down BasModel functions"""
-        self.BM.dispose()
         pass
 
     def test_pep8_base_model_class(self):
