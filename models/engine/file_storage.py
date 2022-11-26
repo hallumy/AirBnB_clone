@@ -44,16 +44,15 @@ class FileStorage:
         json_to_dic = {}
         for key, value in FileStorage.__objects.items():
             json_to_dic[key] = value.to_dict()
-        with open(FileStorage.__file_path, mode="w") as f:
-            json.dump(json_to_dic, f)
+        with open(FileStorage.__file_path, "w") as f:
+            f.write(json.dumps(json_to_dic))
 
     def reload(self):
         """If the __file_path exists deserialization of
         json file to __objects, else does nothing
         """
         if path.exists(FileStorage.__file_path):
-            with open(FileStorage.__file_path, mode="r",
-                      encoding='utf-8') as f:
+            with open(FileStorage.__file_path, mode="r") as f:
                 json_to_dic = json.load(f)
                 for key, value in json_to_dic.items():
                     self.__objects[key] = eval(value["__class__"])(**value)
