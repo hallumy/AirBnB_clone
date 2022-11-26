@@ -7,11 +7,11 @@ import models
 
 timeformat = '%Y-%m-%dT%H:%M:%S.%f'
 
+
 class BaseModel:
     """BaseModel class
-    
     This  Base Model defines all common attributes
-    It also Initializes, serializers and deserializes 
+    It also Initializes, serializers and deserializes
     future instances.
 
     """
@@ -21,13 +21,11 @@ class BaseModel:
         if args is not None and len(args) > 0:
             pass
         if kwargs:
-            for key, value in  kwargs.items():
+            for key, value in kwargs.items():
                 if key in ['created_at', 'updated_at']:
                     value = datetime.strptime(value, timeformat)
                 if key not in ['__class__']:
                     setattr(self, key, value)
-
-
         else:
             self.id = str(uuid.uuid4())
             self.created_at = datetime.now()
@@ -47,7 +45,7 @@ class BaseModel:
         models.storage.save()
 
     def to_dict(self):
-        """An instance that returns a new dictionary containing 
+        """An instance that returns a new dictionary containing
         all keys of __dict__
 
         """
@@ -57,4 +55,3 @@ class BaseModel:
         class_detail['__class__'] = self.__class__.__name__
 
         return class_detail
-
