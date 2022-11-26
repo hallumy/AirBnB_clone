@@ -13,22 +13,24 @@ from models.review import Review
 import shlex
 from datetime import datetime
 
+
 class HBNBCommand(cmd.Cmd):
     """Command processor for this class"""
 
     prompt = '(hbnb)'
-    allowed_classes = {'BaseModel', 'User', 'State', 'City', 'Amenity', 'Place', 'Review'}
+    allowed_classes = {'BaseModel', 'User', 'State', 
+            'City', 'Amenity', 'Place', 'Review'}
 
     def do_EOF(self, arg):
         """Quit command to exit the program
         """
-        
+
         return True
 
     def do_quit(self, arg):
         """Quit command to exit the program
         """
-        
+
         return True
 
     def emptyline(self):
@@ -69,7 +71,7 @@ class HBNBCommand(cmd.Cmd):
                 print('** no instance found **')
             else:
                 print(instant_data)
-    
+
     def do_destroy(self, arg):
         """Deletes an instance based on the name and the id
         """
@@ -94,20 +96,20 @@ class HBNBCommand(cmd.Cmd):
             """Prints all string rep of all instances
             based or not on the class name
             """
-        line = arg.split()
+            line = arg.split()
        # line = self.parseline(arg).split
-        objs = models.storage.all()
-        if line is None:
-            print([str(objs[obj]) for obj in objs])
-        elif line in self.allowed_classes:
-            keys = objs.keys()
-            print([str(objs[key]) for key in keys if key.startswith(command)])
-        else:
-            print("** class doesn't exist **")
+            objs = models.storage.all()
+            if line is None:
+                print([str(objs[obj]) for obj in objs])
+            elif line in self.allowed_classes:
+                keys = objs.keys()
+                print([str(objs[key]) for key in keys if key.startswith(command)])
+            else:
+                print("** class doesn't exist **")
 
     def do_update(self, arg):
         """Updates an instance based on the class name and id
-by adding or updating attribute.
+        by adding or updating attribute.
         """
         args = shlex.split(arg)
         args_size = len(args)
@@ -143,9 +145,5 @@ by adding or updating attribute.
 
         return value
 
-
-
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
-
-
