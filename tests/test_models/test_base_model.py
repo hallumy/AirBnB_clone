@@ -90,11 +90,27 @@ class TestBaseModel(unittest.TestCase):
         self.assertEqual(insta.name, "School")
         self.assertEqual(insta.number, 89)
 
+<<<<<<< HEAD
     def test_save_BaseModel(self):
         """test if save functions"""
         BM = BaseModel()
         self.BM.save()
         self.assertNotEqual(self.BM.created_at, self.BM.updated_at)
+=======
+    @mock.patch('models.storage')
+    def test_save(self, mock_storage):
+        """Test that save method updates `updated_at` and calls
+        `storage.save`"""
+        inst = BaseModel()
+        old_created_at = inst.created_at
+        old_updated_at = inst.updated_at
+        inst.save()
+        new_created_at = inst.created_at
+        new_updated_at = inst.updated_at
+        self.assertNotEqual(old_updated_at, new_updated_at)
+        self.assertEqual(old_created_at, new_created_at)
+        self.assertTrue(mock_storage.save.called)
+>>>>>>> 36c3b65f5b51e014e4a3e611782fcbc8ef43a61a
 
     def test__str__BaseModel(self):
         """test the _str method
