@@ -2,7 +2,7 @@
 """
 the TestUser class methods
 """
-
+import time
 from datetime import datetime
 import inspect
 from models import user
@@ -85,7 +85,7 @@ class testUser(unittest.TestCase):
         self.assertEqual(us.first_name, "")
 
     def test_last_name_attr(self):
-        """Test that User has last_name and is an empty string"""
+        """Test for User last_name and is an empty string"""
         us = User()
         self.assertTrue(hasattr(us, "last_name"))
         self.assertEqual(us.last_name, "")
@@ -100,15 +100,17 @@ class testUser(unittest.TestCase):
             self.assertTrue("__class__" in new_dic)
 
     def test_to_dict_values(self):
-        """test that values in dict returned from to_dict are correct"""
+        """test values in dict returned from to_dict"""
         timeFormat = "%Y-%m-%dT%H:%M:%S.%f"
         us = User()
         new_dic = us.to_dict()
         self.assertEqual(new_dic["__class__"], "User")
         self.assertEqual(type(new_dic["created_at"]), str)
         self.assertEqual(type(new_dic["updated_at"]), str)
-        self.assertEqual(new_dic["created_at"], us.created_at.strftime(t_format))
-        self.assertEqual(new_dic["updated_at"], us.updated_at.strftime(t_format))
+        self.assertEqual(new_dic["created_at"],
+                         us.created_at.strftime(timeFormat))
+        self.assertEqual(new_dic["updated_at"],
+                         us.updated_at.strftime(timeFormat))
 
     def test_str(self):
         """tests the str method output"""

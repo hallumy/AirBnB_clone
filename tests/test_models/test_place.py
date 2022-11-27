@@ -18,7 +18,8 @@ class TestPlace(unittest.TestCase):
         self.new_inst = Place()
 
     def tearDown(self):
-         del self.new_inst
+        """run after setup"""
+        del self.new_inst
 
     def test_pep8_conformance_place(self):
         """Test that models/place.py conforms to PEP8."""
@@ -157,8 +158,10 @@ class TestPlace(unittest.TestCase):
         self.assertEqual(new_dic["__class__"], "Place")
         self.assertEqual(type(new_dic["created_at"]), str)
         self.assertEqual(type(new_dic["updated_at"]), str)
-        self.assertEqual(new_dic["created_at"], pl.created_at.strftime(t_format))
-        self.assertEqual(new_dic["updated_at"], pl.updated_at.strftime(t_format))
+        self.assertEqual(new_dic["created_at"],
+                         pl.created_at.strftime(t_format))
+        self.assertEqual(new_dic["updated_at"],
+                         pl.updated_at.strftime(t_format))
 
     def test_str(self):
         """test that the str method output"""

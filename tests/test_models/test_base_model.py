@@ -61,9 +61,11 @@ class TestBaseModel_docs(unittest.TestCase):
                     len(funct[1].__doc__) > 1,
                     "{:s} method needs a docstring".format(funct[0])
                 )
-                
+
+
 class TestBaseModel(unittest.TestCase):
-        """tests the class BaseModel"""
+    """tests the class BaseModel"""
+
     @mock.patch('models.storage')
     def test_intantiationBaseModel(self, mock_storage):
         """test odject creation status"""
@@ -136,8 +138,6 @@ class TestBaseModel(unittest.TestCase):
         self.assertEqual(self.base.__class__.__name__, BaseModel)
         self.assertIsInstance(base_dict[created_at], str)
         self.assertIsInstance(base_dict[update-at], str)
-        
-     
 
 
 if __name__ == '__main__':

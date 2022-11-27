@@ -11,6 +11,7 @@ import pep8
 from datetime import datetime
 from models.state import State
 from contextlib import redirect_stdout
+St = State()
 
 class TestState(unittest.TestCase):
     """
@@ -22,7 +23,9 @@ class TestState(unittest.TestCase):
         Set up class method for the doc tests
         """
         self.new_inst = State()
+
     def tearDown(self):
+        """run after set up finishes"""
         del self.new_inst
 
     def test_pep8_conformance_State(self):
@@ -33,6 +36,7 @@ class TestState(unittest.TestCase):
         result = pep8style.check_files(['models/state.py'])
         self.assertEqual(result.total_errors, 0,
                          "Found code style errors (and warnings).")
+
     def test_pep8_conformance_test_state(self):
         """
         Test to conform to PEP8
@@ -47,35 +51,37 @@ class TestState(unittest.TestCase):
         Tests for module docstring
         """
         self.assertTrue(len(State.__doc__) >= 1)
+
     def test_class_docstring(self):
         """
         Tests for docstring documentation
         """
         self.assertTrue(len(State.__doc__) >= 1)
+
     def test_func_docstrings(self):
         """
         Tests for docstring doc
         """
-        for func in self.setup:
+        for func in self.state_f:
             self.assertTrue(len(func[1].__doc__) >= 1)
 
     def setUp(self):
         """set up methd for State class
         """
-        self.S = State()
+        self.St = State()
 
     def tearDown(self):
         """initialized methd for State class
         """
-        self.S = None
+        self.St = None
 
     def test_type(self):
         """test method for type testing
         """
-        self.assertIsInstance(self.S, State)
-        self.assertEqual(type(self.S), State)
-        self.assertEqual(issubclass(self.S.__class__, State), True)
-        self.assertEqual(isinstance(self.S, State), True)
+        self.assertIsInstance(self.St, State)
+        self.assertEqual(type(self.St), State)
+        self.assertEqual(issubclass(self.St.__class__, State), True)
+        self.assertEqual(isinstance(self.St, State), True)
 
     def test_name_type(self):
         """tests the type of state attr
@@ -86,9 +92,9 @@ class TestState(unittest.TestCase):
         """tests the string methd
         """
         string = str(self.St)
-        Stid = "[{}] ({})".format(self.St.__class__.__name__,
-                                 self.Stid)
-        test = Stid in string
+        St.id = "[{}] ({})".format(self.St.__class__.__name__,
+                                  self.St.id)
+        test = St.id in string
         self.assertEqual(True, test)
         test = "updated_at" in string
         self.assertEqual(True, test)
@@ -112,6 +118,7 @@ class TestState(unittest.TestCase):
     def test_to_dict_more(self):
         """tests to_dict method
         """
+        St = State()
         my_dict = self.St.to_dict()
         created_at = my_dict['created_at']
         time = datetime.strptime(created_at, "%Y-%m-%dT%H:%M:%S.%f")
@@ -122,7 +129,7 @@ class TestState(unittest.TestCase):
         """
         my_dict = self.St.to_dict()
         St1 = self.St.__class__(**my_dict)
-        self.assertEqual(St1.id, self.S.id)
+        self.assertEqual(St1.id, self.St.id)
         self.assertEqual(St1.updated_at, self.St.updated_at)
         self.assertEqual(St1.created_at, self.St.created_at)
         self.assertEqual(St1.__class__.__name__,
@@ -136,25 +143,3 @@ class TestState(unittest.TestCase):
         self.assertEqual(my_dict['name'], 'Hallumy')
         St1 = self.St.__class__(**my_dict)
         self.assertEqual(St1.created_at, self.St.created_at)
-
-    def test_unique_id(self):
-        """test for unique ids
-        """
-        St1 = self.St.__class__()
-        St2 = self.St.__class__()
-        self.assertNotEqual(self.St.id, St1.id)
-        self.assertNotEqual(self.St.id, St2.id)
-
-    def test_id_type_string(self):
-        """test id is a str
-        """
-        self.assertEqual(type(self.St.id), str)
-
-    def test_updated_time(self):
-        """test time gets updated
-        """
-        time1 = self.St.updated_at
-        self.St.save()
-        time2 = self.St.updated_at
-        self.assertNotEqual(time1, time2)
-        self.assertEqual(type(time1), datetime)
