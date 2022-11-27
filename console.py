@@ -12,7 +12,7 @@ from models.place import Place
 from models.review import Review
 import shlex
 from datetime import datetime
-
+import re
 
 class HBNBCommand(cmd.Cmd):
     """Command processor for this class"""
@@ -96,16 +96,17 @@ class HBNBCommand(cmd.Cmd):
             """Prints all string rep of all instances
             based or not on the class name
             """
-            line = arg.split()
-            objs = models.storage.all()
-            if line is None:
-                print([str(objs[obj]) for obj in objs])
-            elif line in self.allowed_classes:
-                keys = objs.keys()
-                print([str(objs[key]) for key in keys
-                      if key.startswith(command)])
-            else:
+            argl = parse(arg)
+            if len(argl) > 0 and argl[0] not in HBNBCommand.__classes:
                 print("** class doesn't exist **")
+            else:
+                objl = []
+                for obj in storage.all().values():
+                    if len(argl) > 0 and argl[0] == obj.__class__.__name__:
+                        objl.append(obj.__str__())
+                    elif len(argl) == 0:
+                        objl.append(obj.__str__())
+                print(objl)
 
     def do_update(self, arg):
         """Updates an instance based on the class name and id
@@ -144,6 +145,40 @@ class HBNBCommand(cmd.Cmd):
             return float(value)
 
         return value
+
+    def get_objects(self, instance=''):
+        """Gets the elements created by the console
+        This method takes care of obtaining the information
+        of all the instances created in the file `objects.json`
+        that is used as the storage engine.
+        """
+        objects = models.storage.all()
+
+        if instance:
+            keys = objects.keys()
+            return [str(val) for key, val in objects.items()
+                    if key.startswith(instance)]
+
+        return [str(val) for key, val in objects.items()]
+
+    def default(self, line):
+        """When the command prefix is not recognized, this method
+        looks for whether the command entered has the syntax:
+        """
+        if '.' in line:
+            splitted = re.split(r'\.|\(|\)', line)
+            class_name = splitted[0]
+            method_name = splitted[1]
+
+            if class_name in self.allowed_classes:
+                if method_name == 'all':
+                    print(self.get_objects(class_name))
+                elif method_name == 'show':
+                    class_id = splitted[2][1:-1]
+                    self.do_show(class_name + ' ' + class_id)
+                elif method_name == 'destroy':
+                    class_id = splitted[2][1:-1]
+                    self.do_destroy(class_name + ' ' + class_id)
 
 
 if __name__ == '__main__':
