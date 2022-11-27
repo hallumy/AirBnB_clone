@@ -9,8 +9,10 @@ import os
 import uuid
 from models import storage
 import time
+import models
 from unittest import mock
 import inspect
+module_doc = models.base_model.__doc__
 BaseModel = models.base_model.BaseModel
 
 
@@ -50,7 +52,7 @@ class TestBaseModel_docs(unittest.TestCase):
 
     def test_funct_docstrings(self):
         """Test for docstrings in BaseModel"""
-        for funct in self.base_functs:
+        for funct in self.BM:
             with self.subTest(function=funct):
                 self.assertIsNot(
                     funct[1].__doc__,
@@ -90,17 +92,18 @@ class TestBaseModel(unittest.TestCase):
 
     def test_save_BaseModel(self):
         """test if save functions"""
-        self.base.save()
-        self.assertNotEqual(self.base.created_at, self.base.updated_at)
+        BM = BaseModel()
+        self.BM.save()
+        self.assertNotEqual(self.BM.created_at, self.BM.updated_at)
 
     def test__str__BaseModel(self):
         """test the _str method
         that returns (str) a descriptor for BM Class
         """
         String = str(self.BM)
-        BMid = '[{}] ({}) {}'.format(self.BM._class_._name_,
+        BM.id = '[{}] ({}) {}'.format(self.BM._class_._name_,
                                      self.BM.id, self.BM.__dict__)
-        self.assertEqual(True, BMid)
+        self.assertEqual(True, BM.id)
         self.assertEqual(True, 'creaed_at')
         self.assertEqual(True, 'updated_at')
         self.assertEqual(True, 'datetime')
@@ -134,11 +137,8 @@ class TestBaseModel(unittest.TestCase):
 
     def test_to_dict_BaseModel(self):
         """Checks for working dictionary methods"""
+        BM = BaseModel()
         myDict = self.BM.to_dict()
-        self.assertEqual(self.base.__class__.__name__, BaseModel)
-        self.assertIsInstance(base_dict[created_at], str)
-        self.assertIsInstance(base_dict[update-at], str)
-
-
-if __name__ == '__main__':
-    unittest.main()
+        self.assertEqual(self.BM.__class__.__name__, BaseModel)
+        self.assertIsInstance(BM_dict[created_at], str)
+        self.assertIsInstance(BM_dict[update-at], str)

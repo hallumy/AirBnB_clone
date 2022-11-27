@@ -159,9 +159,9 @@ class TestPlace(unittest.TestCase):
         self.assertEqual(type(new_dic["created_at"]), str)
         self.assertEqual(type(new_dic["updated_at"]), str)
         self.assertEqual(new_dic["created_at"],
-                         pl.created_at.strftime(t_format))
+                         pl.created_at.strftime(timeFormat))
         self.assertEqual(new_dic["updated_at"],
-                         pl.updated_at.strftime(t_format))
+                         pl.updated_at.strftime(timeFormat))
 
     def test_str(self):
         """test that the str method output"""

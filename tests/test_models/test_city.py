@@ -2,12 +2,11 @@
 """
 To test the City class
 """
-
 from datetime import datetime
 import inspect
-from models.city import City
 from models.base_model import BaseModel
 import pep8
+from models import city
 import unittest
 City = city.City
 
@@ -15,12 +14,10 @@ City = city.City
 class testCity(unittest.TestCase):
     """Tests the City class"""
 
-    def setUp(self):
+    @classmethod
+    def setUpClass(cls):
         """Set up for the doc tests"""
-        self.new_inst = City()
-
-    def tearDown(self):
-        del self.new_inst
+        cls.city_fn = inspect.getmembers(City, inspect.isfunction)
 
     def test_pep8_conformance_city(self):
         """Test conformity to PEP8."""
@@ -52,7 +49,7 @@ class testCity(unittest.TestCase):
 
     def test_city_func_docstrings(self):
         """Test for docstrings in City methods"""
-        for func in self.city_f:
+        for func in self.city_fn:
             self.assertIsNot(func[1].__doc__, None,
                              "{:s} methd needs a docstring".format(func[0]))
             self.assertTrue(len(func[1].__doc__) >= 1,
@@ -83,23 +80,25 @@ class TestCity(unittest.TestCase):
 
     def test_to_dict_creates_dict(self):
         """test to_dict method creates a dictionary with proper attrs"""
-        ci = City()
-        new_d = ci.to_dict()
-        self.assertEqual(type(new_d), dict)
-        for attr in ci.__dict__:
-            self.assertTrue(attr in new_d)
-            self.assertTrue("__class__" in new_d)
+        city = City()
+        new_dic = city.to_dict()
+        self.assertEqual(type(new_dic), dict)
+        for attr in city.__dict__:
+            self.assertTrue(attr in new_dic)
+            self.assertTrue("__class__" in new_dic)
 
     def test_to_dict_values(self):
         """test that values in dict"""
         timeFormat = "%Y-%m-%dT%H:%M:%S.%f"
-        ci = City()
-        new_d = ci.to_dict()
-        self.assertEqual(new_d["__class__"], "City")
-        self.assertEqual(type(new_d["created_at"]), str)
-        self.assertEqual(type(new_d["updated_at"]), str)
-        self.assertEqual(new_d["created_at"], ci.created_at.strftime(t_format))
-        self.assertEqual(new_d["updated_at"], ci.updated_at.strftime(t_format))
+        city = City()
+        new_dic = city.to_dict()
+        self.assertEqual(new_dic["__class__"], "City")
+        self.assertEqual(type(new_dic["created_at"]), str)
+        self.assertEqual(type(new_dic["updated_at"]), str)
+        self.assertEqual(new_dic["created_at"],
+                         city.created_at.strftime(timeFormat))
+        self.assertEqual(new_dic["updated_at"],
+                         city.updated_at.strftime(timeFormat))
 
     def test_str(self):
         """test correct output"""

@@ -13,20 +13,17 @@ from models.state import State
 from contextlib import redirect_stdout
 St = State()
 
+
 class TestState(unittest.TestCase):
     """
     class for testing State class' methods
     """
-
-    def setUp(self):
+    @classmethod
+    def setUpClass(cls):
         """
         Set up class method for the doc tests
         """
-        self.new_inst = State()
-
-    def tearDown(self):
-        """run after set up finishes"""
-        del self.new_inst
+        cls.state_fn = inspect.getmembers(State, inspect.isfunction)
 
     def test_pep8_conformance_State(self):
         """
@@ -62,7 +59,7 @@ class TestState(unittest.TestCase):
         """
         Tests for docstring doc
         """
-        for func in self.state_f:
+        for func in self.state_fn:
             self.assertTrue(len(func[1].__doc__) >= 1)
 
     def setUp(self):
@@ -93,7 +90,7 @@ class TestState(unittest.TestCase):
         """
         string = str(self.St)
         St.id = "[{}] ({})".format(self.St.__class__.__name__,
-                                  self.St.id)
+                                   self.St.id)
         test = St.id in string
         self.assertEqual(True, test)
         test = "updated_at" in string

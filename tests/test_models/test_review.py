@@ -95,10 +95,11 @@ class TestReview(unittest.TestCase):
     def test_string_return(self):
         """tests the str methd
         """
+        UR = Review()
         string = str(self.UR)
-        Rid = "[{}] ({})".format(self.UR.__class__.__name__,
-                                 self.UR.id)
-        test = URid in string
+        UR.id = "[{}] ({})".format(self.UR.__class__.__name__,
+                                   self.UR.id)
+        test = UR.id in string
         self.assertEqual(True, test)
         test = "updated_at" in string
         self.assertEqual(True, test)

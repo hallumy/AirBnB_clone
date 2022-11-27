@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """test file storage"""
+from models.engine import file_storage
 import unittest
 import inspect
 import pep8
@@ -68,7 +69,7 @@ class TestFileStorage(unittest.TestCase):
         """Test that all returns the FileStorage.__objects attr"""
         storage = FileStorage()
         new_dictio = storage.all()
-        self.assertEqual(type(new_diciot), dict)
+        self.assertEqual(type(new_dictio), dict)
         self.assertIs(new_dictio, storage._FileStorage__objects)
 
     def test_new(self):
