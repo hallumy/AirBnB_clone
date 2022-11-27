@@ -90,13 +90,6 @@ class TestBaseModel(unittest.TestCase):
         self.assertEqual(insta.name, "School")
         self.assertEqual(insta.number, 89)
 
-<<<<<<< HEAD
-    def test_save_BaseModel(self):
-        """test if save functions"""
-        BM = BaseModel()
-        self.BM.save()
-        self.assertNotEqual(self.BM.created_at, self.BM.updated_at)
-=======
     @mock.patch('models.storage')
     def test_save(self, mock_storage):
         """Test that save method updates `updated_at` and calls
@@ -110,7 +103,6 @@ class TestBaseModel(unittest.TestCase):
         self.assertNotEqual(old_updated_at, new_updated_at)
         self.assertEqual(old_created_at, new_created_at)
         self.assertTrue(mock_storage.save.called)
->>>>>>> 36c3b65f5b51e014e4a3e611782fcbc8ef43a61a
 
     def test__str__BaseModel(self):
         """test the _str method
@@ -151,10 +143,11 @@ class TestBaseModel(unittest.TestCase):
         BM = BaseModel()
         self.assertIsInstance(BM.updated_at, datetime)
 
-    def test_to_dict_BaseModel(self):
+    def test_to_dict_values(self):
         """Checks for working dictionary methods"""
+        t_format = "%Y-%m-%dT%H:%M:%S.%f"
         BM = BaseModel()
-        myDict = self.BM.to_dict()
+        myDict = BM.to_dict()
         self.assertEqual(self.BM.__class__.__name__, BaseModel)
         self.assertIsInstance(BM_dict[created_at], str)
         self.assertIsInstance(BM_dict[update-at], str)
