@@ -32,26 +32,30 @@ class BaseModel:
             self.updated_at = self.created_at
             models.storage.new(self)
 
+    def to_dict(self):
+        """An instance that returns a new dictionary containing
+        all keys of __dict__
+        """
+        class_detail = {}
+        for key, item in self.__dict__.items():
+            if key in ['created_at', 'updated_at']:
+                class_detail[key] = item
+
+        class_detail = self.__dict__.copy()
+        class_detail['__class__'] = self.__class__.__name__
+        class_detail['created_at'] = self.created_at.isoformat()
+        class_detail['updated_at'] = self.updated_at.isoformat()
+        return class_detail
+
     def __str__(self):
         """Representation of the class for the user"""
 
-        class_name = self.__class__.__name__
-        return '[{}] ({}) {}'.format(class_name, self.id, self.__dict__)
+        return ('[{}] ({}) {}'.format(self.__class__.__name__,
+                                      self.id, self.__dict__))
 
     def save(self):
         """Updates the public instance"""
 
         self.updated_at = datetime.now()
+        models.storage.new(self)
         models.storage.save()
-
-    def to_dict(self):
-        """An instance that returns a new dictionary containing
-        all keys of __dict__
-
-        """
-        class_detail = self.__dict__.copy()
-        class_detail["created_at"] = self.created_at.isoformat()
-        class_detail['updated_at'] = self.updated_at.isoformat()
-        class_detail['__class__'] = self.__class__.__name__
-
-        return class_detail
