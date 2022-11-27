@@ -147,7 +147,9 @@ class TestBaseModel(unittest.TestCase):
         """Checks for working dictionary methods"""
         t_format = "%Y-%m-%dT%H:%M:%S.%f"
         BM = BaseModel()
-        myDict = BM.to_dict()
-        self.assertEqual(self.BM.__class__.__name__, BaseModel)
-        self.assertIsInstance(BM_dict[created_at], str)
-        self.assertIsInstance(BM_dict[update-at], str)
+        new_dic = BM.to_dict()
+        self.assertEqual(new_dic["__class__"], "BaseModel")
+        self.assertEqual(type(new_dic["created_at"]), str)
+        self.assertEqual(type(new_dic["updated_at"]), str)
+        self.assertEqual(new_dic["created_at"], BM.created_at.strftime(t_format))
+        self.assertEqual(new_dic["updated_at"], BM.updated_at.strftime(t_format))
