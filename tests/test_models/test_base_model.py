@@ -127,6 +127,7 @@ class TestBaseModel(unittest.TestCase):
 
     def test_id__type__str(self):
         """Checks if id is a string"""
+        BM = BaseModel()
         self.assertEqual(type(self.BM.id), str)
 
     def test_created_time(self):
