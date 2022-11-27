@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""unit test for all my files, functions"""
+"""unitTest for behaviour and doc type"""
 
 from models.base_model import BaseModel
 from datetime import datetime
@@ -9,31 +9,22 @@ import os
 import uuid
 from models import storage
 import time
-import re
+from unittest import mock
+import inspect
+BaseModel = models.base_model.BaseModel
 
 
-class Test_BaseModel(unittest.TestCase):
+class TestBaseModel_docs(unittest.TestCase):
     """tests All class methods, files,
-    functions in BaseModel class
+    functions and docStyle in BaseModel class
     """
-    def setUp(self):
-        """ Set up for for object objs of BaseMode"""
-        self.BM = BaseModel()
 
     @classmethod
-    def tearDown(cls):
-        """
-        After all the tests have run the final tearDownClass
-        is run
-        """
+    def setUpClass(self):
+        """ Set up for for object objs of BaseMode"""
+        self.BM = inspect.getmembers(BaseModel, inspect.isfunction)
 
-        del cls.base
-
-    def tearDown(self):
-        """Tears down BasModel functions"""
-        pass
-
-    def test_pep8_base_model_class(self):
+    def test_pep8_base_model_conformity(self):
         """
         checks BaseModel conform to PEP8
         """
@@ -43,12 +34,57 @@ class Test_BaseModel(unittest.TestCase):
         self.assertEqual(result.total_errors, 0,
                          "fix pep8")
 
-    def test_pep8_base_model_test(self):
-        """test that test/test_models/test_base_model.py conforms to pep8"""
-        style = pep8.StyleGuide(quiet=True)
-        result = style.check_files(['models/base_model.py'])
-        self.assertEqual(result.total_errors, 0,
-                         "fix pep8")
+    def test_module_docstring(self):
+        """Test for module docstring"""
+        self.assertIsNot(module_doc, None,
+                         "base_model.py needs a docstring")
+        self.assertTrue(len(module_doc) > 1,
+                        "base_model.py needs a docstring")
+
+    def test_class_docstring(self):
+        """Test class docstring"""
+        self.assertIsNot(BaseModel.__doc__, None,
+                         "BaseModel class needs a docstring")
+        self.assertTrue(len(BaseModel.__doc__) >= 1,
+                        "BaseModel class needs a docstring")
+
+    def test_funct_docstrings(self):
+        """Test for docstrings in BaseModel"""
+        for funct in self.base_functs:
+            with self.subTest(function=funct):
+                self.assertIsNot(
+                    funct[1].__doc__,
+                    None,
+                    "{:s} method needs a docstring".format(funct[0])
+                )
+                self.assertTrue(
+                    len(funct[1].__doc__) > 1,
+                    "{:s} method needs a docstring".format(funct[0])
+                )
+                
+class TestBaseModel(unittest.TestCase):
+        """tests the class BaseModel"""
+    @mock.patch('models.storage')
+    def test_intantiationBaseModel(self, mock_storage):
+        """test odject creation status"""
+        insta = BaseModel()
+        self.assertIs(type(inst), BaseModel)
+        insta.name = "School"
+        insta.number = 89
+        attrs_types = {
+            "id": str,
+            "created_at": datetime,
+            "updated_at": datetime,
+            "name": str,
+            "number": int
+        }
+        for attr, typ in attrs_types.items():
+            with self.subTest(attr=attr, typ=typ):
+                self.assertIn(attr, insta.__dict__)
+                self.assertIs(type(insta.__dict__[attr]), typ)
+        self.assertTrue(mock_storage.new.called)
+        self.assertEqual(insta.name, "School")
+        self.assertEqual(insta.number, 89)
 
     def test_save_BaseModel(self):
         """test if save functions"""
@@ -100,6 +136,8 @@ class Test_BaseModel(unittest.TestCase):
         self.assertEqual(self.base.__class__.__name__, BaseModel)
         self.assertIsInstance(base_dict[created_at], str)
         self.assertIsInstance(base_dict[update-at], str)
+        
+     
 
 
 if __name__ == '__main__':
