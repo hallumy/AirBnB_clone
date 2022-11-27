@@ -1,4 +1,9 @@
-#!/usr/bin/env bash
+#!/usr/bin/python3
+"""Base Model Module is a module in charge
+of establishing a reference Base Model for
+classes of the HBNB project
+"""
+
 import uuid
 from datetime import datetime
 from uuid import uuid4
