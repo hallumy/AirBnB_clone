@@ -84,7 +84,7 @@ class TestAmenity(unittest.TestCase):
     def test_to_dict_values(self):
         """test values in dict returned from to_dict"""
         t_format = "%Y-%m-%dT%H:%M:%S.%f"
-        new_dict = Amenity.to_dict()
+        new_dict = self.Amenity.to_dict()
         self.assertEqual(new_dict["__class__"], "Amenity")
         self.assertEqual(type(new_dict["created_at"]),
                          str)
