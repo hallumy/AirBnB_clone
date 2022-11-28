@@ -110,8 +110,8 @@ class TestBaseModel(unittest.TestCase):
         """
         BM = BaseModel()
         string = str(BM)
-        BMid = '[{}] ({}) {}'.format(self.BM._class_._name_,
-                                     self.BMid, self.BM.__dict__)
+        BMid = '[{}] ({}) {}'.format(BM._class_._name_,
+                                     self.BMid, BM.__dict__)
         self.assertEqual(True, BMid)
         self.assertEqual(True, 'creaed_at')
         self.assertEqual(True, 'updated_at')
