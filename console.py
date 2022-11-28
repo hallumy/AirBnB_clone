@@ -13,18 +13,30 @@ from models.review import Review
 import shlex
 from datetime import datetime
 import re
+import json
 
 class HBNBCommand(cmd.Cmd):
     """Command processor for this class"""
 
     prompt = '(hbnb)'
-    allowed_classes = {'BaseModel', 'User', 'State',
-                       'City', 'Amenity', 'Place', 'Review'}
+    allowd_classes = {
+        "BaseModel": BaseModel,
+        "User": User,
+        "State": State,
+        "City": City,
+        "Amenity": Amenity,
+        "Place": Place,
+        "Review": Review
+            }
 
+    def do_nothing(self, arg):
+        """ Does nothing """
+        pass
+    
     def do_EOF(self, arg):
         """Quit command to exit the program
         """
-
+        print("")
         return True
 
     def do_quit(self, arg):
@@ -46,7 +58,7 @@ class HBNBCommand(cmd.Cmd):
         line = self.parseline(arg)[0]
         if line is None:
             print('** class name missing **')
-        elif line not in self.allowed_classes:
+        elif line not in self.allowd_classes:
             print("** class doesn't exist **")
         else:
             obj = eval(line)()
@@ -61,7 +73,7 @@ class HBNBCommand(cmd.Cmd):
         args = self.parseline(arg)[1]
         if line is None:
             print('** class name missing **')
-        elif line not in self.allowed_classes:
+        elif line not in self.allowd_classes:
             print("** class doesn't exist **")
         elif args == '':
             print('** instance id missing **')
@@ -80,7 +92,7 @@ class HBNBCommand(cmd.Cmd):
         args = self.parseline(arg)[1]
         if line is None:
             print('** class name missing **')
-        elif line not in self.allowed_classes:
+        elif line not in self.allowd_classes:
             print("** class doesn't exist **")
         elif args == '':
             print('** instance id missing **')
@@ -116,7 +128,7 @@ class HBNBCommand(cmd.Cmd):
         args_size = len(args)
         if args_size == 0:
             print('** class name missing **')
-        elif args[0] not in self.allowed_classes:
+        elif args[0] not in self.allowd_classes:
             print("** class doesn't exist **")
         elif args_size == 1:
             print('** instance id missing **')
@@ -170,7 +182,7 @@ class HBNBCommand(cmd.Cmd):
             class_name = splitted[0]
             method_name = splitted[1]
 
-            if class_name in self.allowed_classes:
+            if class_name in self.allowd_classes:
                 if method_name == 'all':
                     print(self.get_objects(class_name))
                 elif method_name == 'show':
@@ -179,6 +191,17 @@ class HBNBCommand(cmd.Cmd):
                 elif method_name == 'destroy':
                     class_id = splitted[2][1:-1]
                     self.do_destroy(class_name + ' ' + class_id)
+                    
+    def do_count(self, arg):
+        """
+        Counts number of instances of a class
+        """
+        counter = 0
+        objects_dict = storage.all()
+        for key in objects_dict:
+            if (arg in key):
+                counter += 1
+        print(counter)
 
 
 if __name__ == '__main__':
