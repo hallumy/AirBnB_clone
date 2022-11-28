@@ -9,6 +9,7 @@ from models.base_model import BaseModel
 import pep8
 import unittest
 import inspect
+Amenity = amenity.Amenity
 
 
 class test_amenity(unittest.TestCase):
