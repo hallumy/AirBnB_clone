@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """test file storage"""
 from models.engine import file_storage
+from datetime import datetime
 import unittest
 import inspect
 import pep8
@@ -14,11 +15,18 @@ from models.amenity import Amenity
 from models.place import Place
 from models.review import Review
 FileStorage = file_storage.FileStorage
-classes = {"Amenity": Amenity, "BaseModel": BaseModel, "City": City,
-           "Place": Place, "Review": Review, "State": State, "User": User}
+classes = {
+           "Amenity": Amenity,
+           "BaseModel": BaseModel,
+           "City": City,
+           "Place": Place,
+           "Review": Review,
+           "State": State,
+           "User": User
+              }
 
 
-class TestFileStorageDocs(unittest.TestCase):
+class TestFileStorageDoc(unittest.TestCase):
     """Tests the documentation and style"""
     @classmethod
     def setUpClass(cls):
