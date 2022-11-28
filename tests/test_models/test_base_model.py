@@ -109,10 +109,10 @@ class TestBaseModel(unittest.TestCase):
         that returns (str) a descriptor for BM Class
         """
         BM = BaseModel()
-        String = str(self.BM)
-        BM.id = '[{}] ({}) {}'.format(self.BM._class_._name_,
-                                     self.BM.id, self.BM.__dict__)
-        self.assertEqual(True, BM.id)
+        string = str(BM)
+        BMid = '[{}] ({}) {}'.format(self.BM._class_._name_,
+                                     self.BMid, self.BM.__dict__)
+        self.assertEqual(True, BMid)
         self.assertEqual(True, 'creaed_at')
         self.assertEqual(True, 'updated_at')
         self.assertEqual(True, 'datetime')
