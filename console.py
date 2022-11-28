@@ -4,6 +4,7 @@
 import cmd
 import models
 from models.base_model import BaseModel
+from models import storage
 from models.user import User
 from models.state import State
 from models.city import City
@@ -16,7 +17,7 @@ import re
 import json
 
 class HBNBCommand(cmd.Cmd):
-    """Command processor for this class"""
+    """Cmd processor for this class"""
 
     prompt = '(hbnb)'
     allowd_classes = {
@@ -42,14 +43,12 @@ class HBNBCommand(cmd.Cmd):
     def do_quit(self, arg):
         """Quit command to exit the program
         """
-
         return True
 
     def emptyline(self):
         """When an empty line is entered nothing
         will be executed
         """
-
         pass
 
     def do_create(self, arg):
@@ -87,7 +86,6 @@ class HBNBCommand(cmd.Cmd):
     def do_destroy(self, arg):
         """Deletes an instance based on the name and the id
         """
-
         line = self.parseline(arg)[0]
         args = self.parseline(arg)[1]
         if line is None:
@@ -105,20 +103,25 @@ class HBNBCommand(cmd.Cmd):
                 models.storage.save()
 
         def do_all(self, arg):
-            """Prints all string rep of all instances
-            based or not on the class name
-            """
-            argl = parse(arg)
-            if len(argl) > 0 and argl[0] not in HBNBCommand.__classes:
-                print("** class doesn't exist **")
-            else:
-                objl = []
-                for obj in storage.all().values():
-                    if len(argl) > 0 and argl[0] == obj.__class__.__name__:
-                        objl.append(obj.__str__())
-                    elif len(argl) == 0:
-                        objl.append(obj.__str__())
-                print(objl)
+        """
+        Prints all string representation of all insts
+        """
+        storage.reload()
+        my_json = []
+        objec_dict = storage.all()
+        if not arg:
+            for key in objec_dict:
+                my_json.append(str(objec_dict[key]))
+            print(json.dumps(my_json))
+            return
+        token = shlex.split(arg)
+        if token[0] in HBNBCommand.my_dict.keys():
+            for key in objec_dict:
+                if token[0] in key:
+                    my_json.append(str(objec_dict[key]))
+            print(json.dumps(my_json))
+        else:
+            print("** class doesn't exist **")
 
     def do_update(self, arg):
         """Updates an instance based on the class name and id
