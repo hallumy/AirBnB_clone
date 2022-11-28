@@ -71,10 +71,10 @@ class TestBaseModel(unittest.TestCase):
     @mock.patch('models.storage')
     def test_intantiationBaseModel(self, mock_storage):
         """test odject creation status"""
-        insta = BaseModel()
-        self.assertIs(type(inst), BaseModel)
-        insta.name = "School"
-        insta.number = 89
+        BM = BaseModel()
+        self.assertIs(type(BM), BaseModel)
+        BM.name = "School"
+        BM.number = 89
         attrs_types = {
             "id": str,
             "created_at": datetime,
@@ -84,11 +84,11 @@ class TestBaseModel(unittest.TestCase):
         }
         for attr, typ in attrs_types.items():
             with self.subTest(attr=attr, typ=typ):
-                self.assertIn(attr, insta.__dict__)
-                self.assertIs(type(insta.__dict__[attr]), typ)
+                self.assertIn(attr, BM.__dict__)
+                self.assertIs(type(BM.__dict__[attr]), typ)
         self.assertTrue(mock_storage.new.called)
-        self.assertEqual(insta.name, "School")
-        self.assertEqual(insta.number, 89)
+        self.assertEqual(BM.name, "School")
+        self.assertEqual(BM.number, 89)
 
     @mock.patch('models.storage')
     def test_save(self, mock_storage):
@@ -104,7 +104,6 @@ class TestBaseModel(unittest.TestCase):
         self.assertEqual(old_created_at, new_created_at)
         self.assertTrue(mock_storage.save.called)
 
-<<<<<<< HEAD
     def test__str__BaseModel(self):
         """test the _str method
         that returns (str) a descriptor for BM Class
@@ -117,13 +116,12 @@ class TestBaseModel(unittest.TestCase):
         self.assertEqual(True, 'creaed_at')
         self.assertEqual(True, 'updated_at')
         self.assertEqual(True, 'datetime')
-=======
+
     def test_str(self):
         """tests the str method output"""
         BM = BaseModel()
         string = "[BaseModel] ({}) {}".format(BM.id, BM.__dict__)
         self.assertEqual(string, str(BM))
->>>>>>> 8680ef92502baa6e9e1c4484ae012a4fa7ace4fc
 
     def test_uu_id_BaseModel(self):
         """

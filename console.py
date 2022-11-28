@@ -102,7 +102,7 @@ class HBNBCommand(cmd.Cmd):
                 del models.storage.all()[key]
                 models.storage.save()
 
-        def do_all(self, arg):
+    def do_all(self, arg):
         """
         Prints all string representation of all insts
         """
@@ -115,7 +115,7 @@ class HBNBCommand(cmd.Cmd):
             print(json.dumps(my_json))
             return
         token = shlex.split(arg)
-        if token[0] in HBNBCommand.my_dict.keys():
+        if token[0] in HBNBCommand.allowd_classes.keys():
             for key in objec_dict:
                 if token[0] in key:
                     my_json.append(str(objec_dict[key]))
