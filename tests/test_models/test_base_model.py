@@ -104,19 +104,6 @@ class TestBaseModel(unittest.TestCase):
         self.assertEqual(old_created_at, new_created_at)
         self.assertTrue(mock_storage.save.called)
 
-    def test__str__BaseModel(self):
-        """test the _str method
-        that returns (str) a descriptor for BM Class
-        """
-        BM = BaseModel()
-        string = str(BM)
-        BMid = '[{}] ({}) {}'.format(BM._class_._name_,
-                                     self.BMid, BM.__dict__)
-        self.assertEqual(True, BMid)
-        self.assertEqual(True, 'creaed_at')
-        self.assertEqual(True, 'updated_at')
-        self.assertEqual(True, 'datetime')
-
     def test_str(self):
         """tests the str method output"""
         BM = BaseModel()
