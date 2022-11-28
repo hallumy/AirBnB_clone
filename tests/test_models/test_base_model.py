@@ -141,5 +141,7 @@ class TestBaseModel(unittest.TestCase):
         self.assertEqual(new_dic["__class__"], "BaseModel")
         self.assertEqual(type(new_dic["created_at"]), str)
         self.assertEqual(type(new_dic["updated_at"]), str)
-        self.assertEqual(new_dic["created_at"], BM.created_at.strftime(t_format))
-        self.assertEqual(new_dic["updated_at"], BM.updated_at.strftime(t_format))
+        self.assertEqual(new_dic["created_at"],
+                         BM.created_at.strftime(t_format))
+        self.assertEqual(new_dic["updated_at"],
+                         BM.updated_at.strftime(t_format))
