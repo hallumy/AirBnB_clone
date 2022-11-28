@@ -16,6 +16,7 @@ from datetime import datetime
 import re
 import json
 
+
 class HBNBCommand(cmd.Cmd):
     """Cmd processor for this class"""
 
@@ -33,7 +34,7 @@ class HBNBCommand(cmd.Cmd):
     def do_nothing(self, arg):
         """ Does nothing """
         pass
-    
+
     def do_EOF(self, arg):
         """Quit command to exit the program
         """
@@ -194,7 +195,7 @@ class HBNBCommand(cmd.Cmd):
                 elif method_name == 'destroy':
                     class_id = splitted[2][1:-1]
                     self.do_destroy(class_name + ' ' + class_id)
-                    
+
     def do_count(self, arg):
         """
         Counts number of instances of a class
