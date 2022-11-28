@@ -84,16 +84,17 @@ class TestAmenity(unittest.TestCase):
     def test_to_dict_values(self):
         """test values in dict returned from to_dict"""
         t_format = "%Y-%m-%dT%H:%M:%S.%f"
-        new_dict = self.Amenity.to_dict()
+        Am = Amenity()
+        new_dict = self.Am.to_dict()
         self.assertEqual(new_dict["__class__"], "Amenity")
         self.assertEqual(type(new_dict["created_at"]),
                          str)
         self.assertEqual(type(new_dict["updated_at"]),
                          str)
         self.assertEqual(new_dict["created_at"],
-                         Amenity.created_at.strftime(t_format))
+                         Am.created_at.strftime(t_format))
         self.assertEqual(new_dict["updated_at"],
-                         Amenity.updated_at.strftime(t_format))
+                         Am.updated_at.strftime(t_format))
 
     def test_str(self):
         """test the str method has the correct output"""
